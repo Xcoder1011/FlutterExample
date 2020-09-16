@@ -19,11 +19,70 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-         // 主题外观
+        // 主题外观
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'wushangkun'),
+      home: MyHomePage(title: '我的好友'),
+    );
+  }
+}
+
+// Stateless widgets 是不可变的，这意味着它们的属性不能改变 —— 所有的值都是 final。
+
+// Stateful widgets 持有的状态可能在 widget 生命周期中发生变化，实现一个 stateful widget 至少需要两个类：
+// 1）一个 StatefulWidget 类；
+// 2）一个 State 类，StatefulWidget 类本身是不变的，但是 State 类在 widget 生命周期中始终存在。
+class RandomWords extends StatefulWidget {
+  @override
+  _RandomWordsState createState() => _RandomWordsState();
+}
+
+// 创建自己的状态类
+class _RandomWordsState extends State<RandomWords> {
+  // 添加一个 _suggestions 列表保存单词对
+  final _suggestions = <WordPair>[];
+
+  // 添加一个 _biggerFont 变量来增大字体大小。
+  final _biggerFont = TextStyle(fontSize: 18.0);
+
+  Widget _buildSuggestions() {
+    // 工厂匿名回调函数
+    // 两个参数 BuildContext 和行迭代器 i
+    return ListView.builder(
+        padding: EdgeInsets.all(16.0),
+        // 对于每个建议的单词对都会调用一次 itemBuilder，然后将单词对添加到 ListTile 行中。
+        itemBuilder: (context, i) {
+          // 在每一列之前，添加一个1像素高的分隔线 widget。
+          if (i.isOdd) return Divider();
+
+          // 在偶数行，该函数会为单词对添加一个 ListTile row，在奇数行，该函数会添加一个分割线的 widget，来分隔相邻的词对。
+          final index = i ~/ 2; // 语法 i ~/ 2 表示 i 除以 2，但返回值是整形（向下取整）
+          if (index >= _suggestions.length) {
+            // 如果是列表中最后一个单词对，接着再生成10个单词对，然后添加到列表。
+            _suggestions.addAll(generateWordPairs().take(10));
+          }
+          return _buildRow(_suggestions[index]);
+        });
+  }
+
+  Widget _buildRow(WordPair pair) {
+    return ListTile(
+      title: Text(
+        pair.asPascalCase,
+        style: _biggerFont,
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // 自动生成一些随机的英文单词
+    final wordPair = WordPair.random();
+
+    return Text(
+      wordPair.asPascalCase,
+      style: Theme.of(context).textTheme.headline4,
     );
   }
 }
@@ -192,3 +251,23 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+
+class AlmostEndFloatFabLocation extends StandardFabLocation
+    with FabEndOffsetX, FabFloatOffsetY {
+  AlmostEndFloatFabLocation({this.offsetX = 0.0, this.offsetY = 0.0});
+  double offsetX = 0;
+  double offsetY = 0;
+  @override
+  double getOffsetX(
+      ScaffoldPrelayoutGeometry scaffoldGeometry, double adjustment) {
+    return super.getOffsetX(scaffoldGeometry, adjustment) + offsetX;
+  }
+
+  @override
+  double getOffsetY(
+      ScaffoldPrelayoutGeometry scaffoldGeometry, double adjustment) {
+    return super.getOffsetY(scaffoldGeometry, adjustment) + offsetY;
+  }
+}
+
+
