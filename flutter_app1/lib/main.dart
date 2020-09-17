@@ -47,7 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final List<WordPair> _suggestions = <WordPair>[];
 
   // 这个集合存储用户喜欢（收藏）的单词对
-  final Set<WordPair> _saved = new Set<WordPair>();
+  final Set<WordPair> _saved =  Set<WordPair>();
 
   // 添加一个 _biggerFont 变量来增大字体大小。
   final TextStyle _biggerFont = TextStyle(fontSize: 18.0);
@@ -76,13 +76,13 @@ class _MyHomePageState extends State<MyHomePage> {
     // 检查确保单词对还没有添加到收藏夹中。
     final bool alreadySaved = _saved.contains(pair);
 
-    return new ListTile(
-      title: new Text(
+    return  ListTile(
+      title:  Text(
         pair.asPascalCase,
         style: _biggerFont,
       ),
       // 每一行加一个心形 ❤️图标️
-      trailing: new Icon(
+      trailing:  Icon(
         alreadySaved ? Icons.favorite : Icons.favorite_border,
         color: alreadySaved ? Colors.red : null,
       ),
@@ -107,7 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
         actions: <Widget>[
           // 跳转到新页面（路由［route］）
-          new IconButton(icon: const Icon(Icons.list), onPressed: _pushToSaved)
+           IconButton(icon: const Icon(Icons.list), onPressed: _pushToSaved)
         ],
       ),
 
