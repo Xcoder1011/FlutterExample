@@ -50,10 +50,9 @@ flutter:
   # 通过这个可以让您使用更多 Material 的特性，比如其预定义好的 图标 集。
   uses-material-design: true
 
-  # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  # 这里有坑， assets 和 上面的 uses-material-design 必须对其，否则会报错！！
+  assets:
+      - assets/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
