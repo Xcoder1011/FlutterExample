@@ -1,111 +1,154 @@
+import 'package:english_words/english_words.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app1/bean/search_result_entity.dart';
+import 'package:flutter_app1/constant/constant.dart';
 import 'package:flutter_app1/http/API.dart';
-import 'package:flutter_app1/widgets/router.dart';
+import 'package:flutter_app1/router/router.dart';
 import 'package:flutter_app1/widgets/search_text_field_widget.dart';
+import 'package:flutter_app1/util/uu_colors.dart';
+import 'package:flutter_app1/constant/constant.dart';
+import 'package:flutter/material.dart';
 
-///搜索
-class SearchPage extends StatefulWidget {
-  final String searchHintContent;
-
-  ///搜索框中的默认显示内容
-  SearchPage({Key key, this.searchHintContent = '用一部电影来形容你的2018'})
-      : super(key: key);
+///学员成绩
+class StudentAchievementListPage extends StatefulWidget {
+  final String searchHintContent = '请输入学员名字或手机号查询成绩';
 
   @override
-  State<StatefulWidget> createState() => _SearchPageState();
+  State<StatefulWidget> createState() => _StudentAchievementListPageState();
 }
 
-class _SearchPageState extends State<SearchPage> {
-  final API _api = API();
-  SearchResultEntity _searchResultEntity;
-  var imgW;
-  var imgH;
+class _StudentAchievementListPageState extends State<StudentAchievementListPage> {
   bool showLoading = false;
-
   @override
   Widget build(BuildContext context) {
-    if (imgW == null) {
-      imgW = MediaQuery.of(context).size.width / 7;
-      imgH = imgW / 0.75;
-    }
-    if (_searchResultEntity != null &&
-        _searchResultEntity.subjects.isNotEmpty) {
-      _searchResultEntity.subjects.sort((a, b) => (b.year.compareTo(a.year)));
-    }
+
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('学员成绩'),
+      ),
       body: SafeArea(
           child: showLoading
               ? Center(
             child: CupertinoActivityIndicator(),
           )
-              : _searchResultEntity == null
-              ? getSearchWidget()
               : Column(
             children: <Widget>[
-              getSearchWidget(),
+              _getTopTipWidget(),
+              _getSearchWidget(),
               Expanded(
-                child: ListView.builder(
-                  itemBuilder: (BuildContext context, int index) {
-                    SearchResultSubject bean =
-                    _searchResultEntity.subjects[index];
-                    return Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: GestureDetector(
-                        behavior: HitTestBehavior.translucent,
-                        child: _getItem(bean, index),
-                        onTap: () {
-                          Router.push(
-                              context, Router.detailPage, bean.id);
-                        },
-                      ),
-                    );
-                  },
-                  itemCount: _searchResultEntity.subjects.length,
-                ),
+                  child:ListView.builder(
+                    itemBuilder: (BuildContext context, int index) {
+                      return Padding(
+                        padding: EdgeInsets.only(left: 15,right: 15, bottom: 10),
+                        child: _buildRow(WordPair.random()),
+                      );
+                    },
+                    itemCount: 10,
+                  ),
               )
+
+              // Expanded(
+              //   child: ListView.builder(
+              //     itemBuilder: (BuildContext context, int index) {
+              //       SearchResultSubject bean =
+              //       _searchResultEntity.subjects[index];
+              //       return Padding(
+              //         padding: EdgeInsets.all(10.0),
+              //         child: GestureDetector(
+              //           behavior: HitTestBehavior.translucent,
+              //           child: _getItem(bean, index),
+              //           onTap: () {
+              //             Router.push(
+              //                 context, Router.detailPage, bean.id);
+              //           },
+              //         ),
+              //       );
+              //     },
+              //     itemCount: _searchResultEntity.subjects.length,
+              //   ),
+              // )
             ],
           )),
+      backgroundColor: UUColos.hexString("#F5F5F5"),
     );
   }
 
-  String getType(String subtype) {
-    switch (subtype) {
-      case 'movie':
-        return '电影';
+  Widget _buildRow(WordPair pair) {
+
+    if (pair == null) {
+      return Container();
     }
-    return '';
+    return GestureDetector(
+      child: Flex(
+        direction: Axis.horizontal,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget> [
+          Flexible(
+            flex: 1,
+            fit: FlexFit.loose,
+            child: Container(
+              // color: UUColos.randomColor(), /// todo: Cannot provide both a color and a decoration
+              height: 180.0,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                  color: UUColos.randomColor(), /// todo: Cannot provide both a color and a decoration
+                  borderRadius: BorderRadius.circular(6.0)),
+              child: Text(
+                '模拟考试累计5次，达到95分以上提醒我',
+                textAlign: TextAlign.center,
+                textDirection: TextDirection.ltr,
+                style: TextStyle(
+                    color: UUColos.hexFF5C11,
+                    fontSize:13
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+      onTap: () {
+        // Router.push(context, Router.detailPage, bean.id);
+      },
+    );
   }
 
-  String listConvertString2(List<SearchResultSubjectsDirector> genres) {
-    if (genres.isEmpty) {
-      return '';
-    } else {
-      String tmp = '';
-      for (SearchResultSubjectsDirector item in genres) {
-        tmp = tmp + item.name;
-      }
-      return tmp;
-    }
+  ///  1. 顶部tip条
+  Widget _getTopTipWidget() {
+    return Flex(
+      direction: Axis.horizontal,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget> [
+        Flexible(
+          flex: 1,
+          fit: FlexFit.loose,
+          child: Container(
+            color: UUColos.hexString('#FF5C11', alpha:0.15),
+            height: 25.0,
+            alignment: Alignment.center,
+            child: Text(
+              '模拟考试累计5次，达到95分以上提醒我',
+              textAlign: TextAlign.center,
+              textDirection: TextDirection.ltr,
+              style: TextStyle(
+                color: UUColos.hexFF5C11,
+                fontSize:13
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
-  String listConvertString(List<String> genres) {
-    if (genres.isEmpty) {
-      return '';
-    } else {
-      String tmp = '';
-      for (String item in genres) {
-        tmp = tmp + item;
-      }
-      return tmp;
-    }
-  }
-
-  Widget getSearchWidget() {
+  ///  2. 搜索栏 🔍
+  Widget _getSearchWidget() {
+    final padding  = Constant.MARGIN_LEFT;
     return Padding(
       padding:
-      EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0, bottom: 20.0),
+      EdgeInsets.only(left: padding, right: padding, top: 10.0, bottom: 10.0),
       child: Row(
         children: <Widget>[
           Expanded(
@@ -113,27 +156,9 @@ class _SearchPageState extends State<SearchPage> {
               hintText: widget.searchHintContent,
               onSubmitted: (searchContent) {
                 showLoading = true;
-                _api.searchMovie(searchContent, (searchResultEntity) {
-                  setState(() {
-                    showLoading = false;
-                    _searchResultEntity = searchResultEntity;
-                  });
-                });
               },
             ),
           ),
-          GestureDetector(
-            child: Padding(
-              padding: EdgeInsets.only(left: 10.0),
-              child: Text(
-                '取消',
-                style: getStyle(Colors.green, 17.0),
-              ),
-            ),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          )
         ],
       ),
     );
@@ -147,8 +172,8 @@ class _SearchPageState extends State<SearchPage> {
           child: Image.network(
             bean.images.medium,
             fit: BoxFit.cover,
-            width: imgW,
-            height: imgH,
+            // width: imgW,
+            // height: imgH,
           ),
           clipBehavior: Clip.antiAlias,
           elevation: 5.0,
@@ -162,15 +187,8 @@ class _SearchPageState extends State<SearchPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(
-                getType(bean.subtype),
-                style: getStyle(Colors.grey, 12.0),
-              ),
               Text(bean.title + '(${bean.year})',
                   style: getStyle(Colors.black, 15.0, bold: true)),
-              Text(
-                  '${bean.rating.average} 分 / ${listConvertString(bean.pubdates)} / ${listConvertString(bean.genres)} / ${listConvertString2(bean.directors)}',
-                  style: getStyle(Colors.grey, 13.0))
             ],
           ),
         )

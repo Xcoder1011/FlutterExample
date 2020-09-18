@@ -4,7 +4,7 @@ import 'package:flutter_app1/bean/subject_entity.dart';
 import 'package:flutter_app1/http/API.dart';
 import 'package:flutter_app1/widgets/loading_widget.dart';
 import 'package:flutter_app1/widgets/radius_img.dart';
-import 'package:flutter_app1/widgets/router.dart';
+import 'package:flutter_app1/router/router.dart';
 import 'package:flutter_app1/widgets/search_text_field_widget.dart';
 import 'package:flutter_app1/constant/constant.dart';
 import 'package:flutter_app1/http/http_request.dart';

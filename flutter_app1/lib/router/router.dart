@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app1/pages/student_achievement_list.dart';
-import 'webview_widget.dart';
+import 'package:flutter_app1/pages/search_page.dart';
+import '../widgets/webview_widget.dart';
 import 'package:flutter_app1/pages/student_achievement_detail.dart';
 
 class Router {

@@ -39,8 +39,9 @@ class _ContainerPageState extends State<ContainerPage> {
 
     if(pages == null){
       pages = [
-        SearchPage(),
-        GroupPage()
+        MyHomePage(title: '学员成绩'),
+        StudentAchievementListPage(),
+        // GroupPage()
       ];
     }
 
