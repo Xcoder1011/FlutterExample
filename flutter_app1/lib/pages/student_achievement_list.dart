@@ -2,12 +2,13 @@ import 'package:english_words/english_words.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app1/bean/search_result_entity.dart';
+import 'package:flutter_app1/bean/student_achievement_model.dart';
 import 'package:flutter_app1/constant/constant.dart';
 import 'package:flutter_app1/http/API.dart';
+import 'package:flutter_app1/pages/student_achievement_cell.dart';
 import 'package:flutter_app1/router/router.dart';
 import 'package:flutter_app1/widgets/search_text_field_widget.dart';
 import 'package:flutter_app1/util/uu_colors.dart';
-import 'package:flutter_app1/constant/constant.dart';
 import 'package:flutter/material.dart';
 
 ///学员成绩
@@ -20,6 +21,22 @@ class StudentAchievementListPage extends StatefulWidget {
 
 class _StudentAchievementListPageState extends State<StudentAchievementListPage> {
   bool showLoading = false;
+
+  final List<StudentAchievementModel> dataList = <StudentAchievementModel>[];
+
+  @override
+  void initState() {
+    super.initState();
+    // do 网络请求.... 目前假数据
+    int i = 0;
+    setState(() {
+      do{
+        dataList.add(StudentAchievementModel(name: WordPair.random().asPascalCase));
+        i++;
+      }while(i < 100);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -41,76 +58,16 @@ class _StudentAchievementListPageState extends State<StudentAchievementListPage>
                     itemBuilder: (BuildContext context, int index) {
                       return Padding(
                         padding: EdgeInsets.only(left: 15,right: 15, bottom: 10),
-                        child: _buildRow(WordPair.random()),
+                        child: StudentAchievementCell(dataList[index]),
                       );
                     },
-                    itemCount: 10,
+                    itemCount: dataList.length,
                   ),
               )
 
-              // Expanded(
-              //   child: ListView.builder(
-              //     itemBuilder: (BuildContext context, int index) {
-              //       SearchResultSubject bean =
-              //       _searchResultEntity.subjects[index];
-              //       return Padding(
-              //         padding: EdgeInsets.all(10.0),
-              //         child: GestureDetector(
-              //           behavior: HitTestBehavior.translucent,
-              //           child: _getItem(bean, index),
-              //           onTap: () {
-              //             Router.push(
-              //                 context, Router.detailPage, bean.id);
-              //           },
-              //         ),
-              //       );
-              //     },
-              //     itemCount: _searchResultEntity.subjects.length,
-              //   ),
-              // )
             ],
           )),
       backgroundColor: UUColos.hexString("#F5F5F5"),
-    );
-  }
-
-  Widget _buildRow(WordPair pair) {
-
-    if (pair == null) {
-      return Container();
-    }
-    return GestureDetector(
-      child: Flex(
-        direction: Axis.horizontal,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget> [
-          Flexible(
-            flex: 1,
-            fit: FlexFit.loose,
-            child: Container(
-              // color: UUColos.randomColor(), /// todo: Cannot provide both a color and a decoration
-              height: 180.0,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                  color: UUColos.randomColor(), /// todo: Cannot provide both a color and a decoration
-                  borderRadius: BorderRadius.circular(6.0)),
-              child: Text(
-                '模拟考试累计5次，达到95分以上提醒我',
-                textAlign: TextAlign.center,
-                textDirection: TextDirection.ltr,
-                style: TextStyle(
-                    color: UUColos.hexFF5C11,
-                    fontSize:13
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-      onTap: () {
-        // Router.push(context, Router.detailPage, bean.id);
-      },
     );
   }
 
