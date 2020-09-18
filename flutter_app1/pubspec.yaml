@@ -37,6 +37,11 @@ dependencies:
 #  在执行 Pub get 命令时会自动生成一个名为 pubspec.lock 文件，这里包含了你依赖 packages 的名称和版本。
   english_words: ^3.1.5
 
+  flutter_webview_plugin: 0.3.0+2
+    # 用来模拟网络返回的数据，这些数据是真实的，这里模拟
+  dio: 1.0.13
+  http: ^0.12.0+1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

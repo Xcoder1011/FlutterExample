@@ -24,7 +24,7 @@ class _SplashWidgetState extends State<SplashWidget> {
     return Stack(
       children: <Widget>[
         Offstage(
-          child: MyHomePage(title: '我的好友'),
+          child: ContainerPage(),
           offstage: showAd,
         ),
         Offstage(

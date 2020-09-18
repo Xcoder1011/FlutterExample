@@ -2,6 +2,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app1/flexbox_layout.dart';
+import 'package:flutter_app1/pages/group_page.dart';
+import 'package:flutter_app1/pages/student_achievement_list.dart';
 
 class ContainerPage extends StatefulWidget {
   ContainerPage({Key key}) : super(key: key);
@@ -20,7 +22,7 @@ class TabItem {
 
 class _ContainerPageState extends State<ContainerPage> {
 
-  int selectedIndex;
+  int selectedIndex = 0;
   List<Widget> pages;
 
   List<BottomNavigationBarItem> bottomBarItems;
@@ -34,16 +36,13 @@ class _ContainerPageState extends State<ContainerPage> {
   @override
   void initState() {
     super.initState();
-    print('initState _ContainerPageState');
 
     if(pages == null){
       pages = [
-        MyHomePage(),
-        MyHomePage()
+        SearchPage(),
+        GroupPage()
       ];
     }
-
-    print('pages >>>>>>> _ContainerPageState $pages');
 
     if(bottomBarItems == null) {
       bottomBarItems = items.map((item) => BottomNavigationBarItem(
@@ -72,7 +71,6 @@ class _ContainerPageState extends State<ContainerPage> {
 
   @override
   Widget build(BuildContext context) {
-    print('build _ContainerPageState');
     return Scaffold(
       body: Stack(
         children: [
