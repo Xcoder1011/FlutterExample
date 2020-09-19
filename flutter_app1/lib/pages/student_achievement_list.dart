@@ -31,7 +31,9 @@ class _StudentAchievementListPageState extends State<StudentAchievementListPage>
     int i = 0;
     setState(() {
       do{
-        dataList.add(StudentAchievementModel(name: WordPair.random().asPascalCase));
+        String url = "https://upload.jianshu.io/users/upload_avatars/1828346/968e7599-e7d0-4ae8-aaea-aa41b76e951d.jpg";
+        String phone = "13888839999";
+        dataList.add(StudentAchievementModel(name: WordPair.random().asPascalCase, iconUrl: url, phone:phone));
         i++;
       }while(i < 100);
     });
