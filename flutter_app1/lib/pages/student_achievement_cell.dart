@@ -100,11 +100,9 @@ class _StudentAchievementCellState extends State<StudentAchievementCell> {
                             )
                           ],
                         ),
-
                         Container(
                           width: 58,
                           height: 18,
-
                           child: GestureDetector(
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end, // 平分分布
@@ -116,8 +114,12 @@ class _StudentAchievementCellState extends State<StudentAchievementCell> {
                                       fontSize: 13),
                                 ),
                                 SizedBox(width: 3), // 添加间距10
-                                Image.asset(Constant.imagePath +
-                                    'gray_right_arrow@2x.png', fit: BoxFit.contain),
+                                Container(
+                                  width: 9,
+                                  height: 9,
+                                  child: Image.asset(Constant.imagePath +
+                                      'gray_right_arrow@2x.png', fit: BoxFit.contain),
+                                )
                               ],
                             ),
                             onTap: _phoneAct,
@@ -131,7 +133,6 @@ class _StudentAchievementCellState extends State<StudentAchievementCell> {
                     height: 0.5,
                     color: UUColos.separateLine,
                   ),
-
                   Container(
                     width: double.infinity, // 变得和上级视图一样大
                     height: 119,
@@ -147,7 +148,6 @@ class _StudentAchievementCellState extends State<StudentAchievementCell> {
                           ),
                           alignment: Alignment.topLeft,
                         ),
-
                         Align(
                           child: Text(
                             '科一做题记录：90 | 99 | 90 | 99 | 97 | 99',
@@ -179,7 +179,7 @@ class _StudentAchievementCellState extends State<StudentAchievementCell> {
         ],
       ),
       onTap: () {
-        // Router.push(context, Router.detailPage, bean.id);
+        Router.pushNoParams(context, Router.detailPage);
       },
     );
   }

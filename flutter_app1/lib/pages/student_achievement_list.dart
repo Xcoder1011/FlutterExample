@@ -66,7 +66,6 @@ class _StudentAchievementListPageState extends State<StudentAchievementListPage>
                     itemCount: dataList.length,
                   ),
               )
-
             ],
           )),
       backgroundColor: UUColos.hexString("#F5F5F5"),
